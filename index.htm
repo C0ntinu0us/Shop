@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Магазин</title>
+		<style class="text/css">
+/*		*{
+			margin: 0;
+		}*/
+			.close-icon{
+				cursor: pointer;
+			}
+
+			.add-icon{
+				cursor: pointer;	
+			}
+
+			.cart-button-close{
+				cursor: pointer;
+			}
+			.catalogue{
+				display: flex;
+				flex-direction: row;
+				justify-content: space-around;
+				background: #373737;
+				flex-wrap: wrap;
+			}
+			.card{
+				width: 30%;
+				border: 1px solid #0000ff;
+			}
+
+			#cart-table{
+				width: 100%;
+				border-width: 2px;
+				border-color: black;
+				font-family: Verdana,Tahoma, Geneva, sans-serif;
+				font-size: larger;
+				font-weight: bold;
+				padding: 10px;
+				border: 2px solid black;
+
+			}
+
+			#totalSum{
+				font-family: Verdana,Tahoma, Geneva, sans-serif;
+				font-size: larger;
+				font-weight: bold;
+				margin: 10px;
+			}
+
+			.spisok{
+				margin-bottom: 25px;
+			}
+
+			.img{
+				display: block;
+				width: 20px;
+				height: 20px;
+			}
+
+			#div-basket{
+				min-width: 100%;
+				min-height: 100%;
+				background-color: rgba(10, 12, 12, 0.7);
+				position: fixed;
+				display: none;
+				z-index: 10;
+				cursor: pointer;
+			}
+
+			.catalogue .card-left{
+				transform: translateX(100px);
+				opacity: 0;
+			}
+
+			.catalogue .card-right{
+				transform: translateX(-100px);
+				opacity: 0;
+			}
+
+			.catalogue .card-left-new{
+				transform: translateX(0px);
+				opacity: 1;
+				transition: transform 1.5s ease-in-out 1s, opacity 1.5s ease-in-out 1s;
+			}
+
+			.catalogue .card-right-new{
+				transform: translateX(0px);
+				opacity: 1;
+				transition: transform 1.5s ease-in-out 1s, opacity 1.5s ease-in-out 1s;
+			}
+
+			.header{
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				background: #F9F6F1;
+			}
+
+			.asd{
+				display: flex;
+				list-style-type: none;
+				padding-left: none;
+			}
+
+			.form{
+				margin-left: 1500px;
+				margin-bottom: 200px;
+
+			}
+
+			.asdd{
+				margin-top: 5px;
+				color: #f4f4f4 ;
+				display: flex;
+				padding-left: none;
+			}
+
+			.asd-asdd{
+				margin-left: 52px;
+			}
+
+			.asd-link{
+				color: black;
+				text-decoration: none;
+			}
+
+			#cart-table {
+				border: 0px solid black;
+			}
+
+
+			.kat{
+				background: #F9F6F1;
+				margin-top: 10px;
+				text-align: center
+			}
+
+			.cart-button-1{
+				background-color: #373737;
+				font-size:x-large;
+				font-family: Verdana,Geneva,Tahoma, sans-serif;
+				border-radius: 20px;
+				border-width: 0;
+				padding: 10px;
+				margin-left: 20px;
+				cursor: pointer;
+			}
+
+			#cart-window{
+				position: fixed;
+				left: 200px;
+				right: 200px;
+				top: 200px;
+				bottom: 200px;
+				background-color: #f4f4f4;
+				cursor: pointer;
+				overflow-y: auto;
+			}
+
+			#cart-button{
+				cursor: pointer;
+			}
+
+			form{
+				font-family: Verdana,Tahoma, Geneva, sans-serif;
+				font-size: larger;
+				margin: 10px;
+			}
+
+			form *{
+				padding: 10px;
+				margin-bottom: 10px;
+				background-color: #f4f4f4;
+			}
+/*			.second{
+				display: flex; 
+				border: 1px solid red;
+			}
+
+			.first{
+				display:table; 
+				border: 1px solid red;	
+			}
+
+			#my-div{
+				display: table;
+				flex-direction: column;
+			}*/
+/*			.img{
+				width: 20;
+				height: 30px;
+			}
+			#basket{
+				width: 20%;
+			}
+
+			#timer {
+				display: flex;
+			}
+			
+			.round-rect {
+				min-width: 75px;
+				min-height: 75px;
+				border-radius: 25%;
+				background-color: red;
+				color: white;
+				font-family: Verdana;
+				margin-right: 10px;
+				text-align: center;
+				padding-top: 10px;
+			}*/
+
+/*			.round-rect div {
+				margin-top: 5px;
+				font-size: xx-large;
+			}*/
+		</style>
+	</head>
+	<body>
+
+	<div id="div-basket">
+		<div id="cart-window">
+			<div id="cart-header">
+				<img src="img/close.png" width="50px" class="cart-button-close">
+			</div>
+			<div id="cart-content">
+				<table border="1" id="cart-table">
+				</table>
+				<div id="totalSum">
+					
+				</div>
+				<div>
+					<form name="order" action="https://shop4test.intermir.ru/sender.php" method="post">
+						<input type="text" name="fio" value="Иванов Иван"><br>
+						<input type="email" name="email" value="email@email.com"><br>
+						<input type="text" name="card_number" value="1234 5678 1234 5678"><br>
+						<input type="password" name="card_cvc" value="QWE123rty"><br>
+						<input type="hidden" name="user_cart" value="">
+					</form>
+				</div>
+			</div>
+			<div id="cart-footer">
+				<button class="cart-button-close cart-button-1">Закрыть корзину</button>
+				<button class="cart-button-1" id="clear-cart">Очистить корзину</button>
+				<button class="cart-button-1" id="order-button">Оформить корзину</button>
+			</div>
+		</div>
+	</div>
+
+<!-- 		<form onsubmit="return validate()" name="form" action="index.php" method="get">
+			<input type="text" name="fio" id="fio">
+			<input type="text" name="email" id="email">
+			<input type="text" name="phone" id="phone">
+			<input type="submit" name="submit" value="Отправить">
+		</form>
+
+		<form name="form1" action="index.php" method="get">
+			<input type="color" name="fio" required="true">
+			<input type="email" name="email" required="true">
+			<input type="date" name="phone" required="true">
+			<input type="submit" name="submit" value="Отправить">
+		</form>
+
+		<div id="fields">
+
+		</div>
+
+
+		<button data-name="Товар1", data-price="1000", data-id="1", class="items">Товар1</button>
+		<button data-name="Товар2", data-price="3000", data-id="2",class="items">Товар2</button>
+		<button id="cart">Показать корзину</button> --> 
+<!-- 		<div id="timer">
+			<div class="round-rect">
+				Дни
+				<div id="days">0</div>
+			</div>
+			<div class="round-rect">
+				Часы
+				<div id="hours">0</div>
+			</div>
+			<div class="round-rect">
+				Минуты
+				<div id="minutes">0</div>
+			</div>
+			<div class="round-rect">
+				Секунды
+				<div id="seconds">0</div>
+			</div>
+		</div> -->
+<!-- 		<button id="start" style="background-color: green">Start</button>
+		<button id="stop" style="background-color: red">Stop</button>
+		<div id ='sale'style="background-color: cadetblue;max-width: 100px;min-height: 50px">
+		</div> -->
+
+<!-- 		<div id="my-div">
+			<div class = "first"><p>ddddddd</p></div>
+			<div class = "second"><p>aa</p></div>
+		</div> -->
+	<header class="header">	
+		<img scr="img/123.jpg" alt="logo">
+		<ul class="asd">
+			<li class="asd-asd"><a class="asd-link" href="#catalogue">Купить</a></li>
+			<li class="asd-asd">Драйверы</li>
+			<li class="asd-asd">Поддержка</li>	
+		</ul>
+
+		<button id="basket">
+			<img class="img" src="img/12.png" alt="корзина">
+		</button>
+	</header>
+		<h2 class="kat">Каталог товаров</h2>
+
+<!-- 		<div id="blank" style="min-height: 500px;"></div>
+		<div style="position: fixed;background: coral;left: 100px;top:100px;" id="show"></div> -->
+
+		<section id="catalogue" class="catalogue">
+
+			<div data-id="0" class="card card-left-search card-left card1">
+				<h3>RTX3070</h3>
+				<img src="img/1.jpg">
+				<p>Описание</p>
+				<ul>
+					<li>Объем видеопамяти 8ГБ</li>
+					<li>Частота графического процессора 1500МГц</li>
+				</ul>
+				<div>Цена: <span class="price">1000</span> dollars</div>
+				<button class="item">Добавить в корзину</button>
+			</div>
+			<div data-id="1" class="card">
+				<h3>RTX3080</h3>
+				<img src="img/1.jpg">
+				<p>Описание</p>
+				<ul>
+					<li>Объем видеопамяти 10ГБ</li>
+					<li>Частота графического процессора 1440МГц</li>
+				</ul>
+				<div>Цена: <span class="price">10</span> dollars</div>
+				<button class="item">Добавить в корзину</button>
+			</div>
+			<div data-id="2" class="card card-right-search card-right">
+				<h3>RTX3090</h3>
+				<img src="img/1.jpg">
+				<p>Описание</p>
+				<ul>
+					<li>Объем видеопамяти 24ГБ</li>
+					<li>Частота графического процессора 1785МГц</li>
+				</ul>
+				<div>Цена: <span class="price">10</span> dollars</div>
+				<button class="item">Добавить в корзину</button>
+			</div>
+			<div data-id="3" class="card card-left-search card-left card1">
+				<h3>RTX3070super</h3>
+				<img src="img/1.jpg">
+				<p>Описание</p>
+				<ul>
+					<li>Объем видеопамяти 8ГБ</li>
+					<li>Частота графического процессора 1500МГц</li>
+				</ul>
+				<button class="item">Добавить в корзину</button>
+			</div>
+			<div data-id="4" data-id="1" class="card">
+				<h3>RTX3080super</h3>
+				<img src="img/1.jpg">
+				<p>Описание</p>
+				<ul>
+					<li>Объем видеопамяти 10ГБ</li>
+					<li>Частота графического процессора 1440МГц</li>
+				</ul>
+				<div>Цена: <span class="price">100000000</span> dollars</div>
+				<button class="item">Добавить в корзину</button>
+			</div>
+			<div data-id="5" class="card card-right-search card-right" >
+				<h3>RTX3090super</h3>
+				<img src="img/1.jpg">
+				<p>Описание</p>
+				<ul>
+					<li><b>Объем видеопамяти 24ГБ</b></li>
+					<li>Частота графического процессора 1785МГц</li>
+				</ul>
+				<button class="item">Добавить в корзину</button>
+			</div>
+			<div data-id="6" class="card card-left-search card-left card1">
+				<h3>RTX3070TI</h3>
+				<img src="img/1.jpg">
+				<p>Описание</p>
+				<ul>
+					<li>Объем видеопамяти 8ГБ</li>
+					<li>Частота графического процессора 1500МГц</li>
+				</ul>
+				<button class="item">Добавить в корзину</button>
+			</div>
+			<div data-id="7" class="card">
+				<h3>RTX3080TI</h3>
+				<img src="img/1.jpg">
+				<p>Описание</p>
+				<ul>
+					<li>Объем видеопамяти 10ГБ</li>
+					<li>Частота графического процессора 1440МГц</li>
+				</ul>
+				<div>Цена: <span class="price">120031323</span> рублей</div>
+				<button class="item">Добавить в корзину</button>
+			</div>
+			<div data-id="8" class="card card-right-search card-right">
+				<h3>RTX3090TI</h3>
+				<img src="img/1.jpg">
+				<p>Описание</p>
+				<ul>
+					<li><b>Объем видеопамяти 24ГБ</b></li>
+					<li>Частота графического процессора 1785МГц</li>
+				</ul>
+				<button class="item">Добавить в корзину</button>
+			</div>
+		</section>
+
+		<div style="background: #212121; min-height: 200px;">
+			<ul class="asdd">
+				<li class="asd-asdd">Связь с нами</li>
+				<li class="asd-asdd">Техологии</li>
+				<li class="asd-asdd">Форумы</li>	
+			</ul>
+			<ul class="asdd">
+				<li class="asd-asdd">Связь с нами</li>
+				<li class="asd-asdd">Техологии</li>
+				<li class="asd-asdd">Форумы</li>	
+			</ul>
+			<ul class="asdd">
+				<li class="asd-asdd">Связь с нами</li>
+				<li class="asd-asdd">Техологии</li>
+				<li class="asd-asdd">Форумы</li>	
+			</ul>			
+<!-- 			<form class="form" onsubmit="return validate()" name="form" action="index.php" method="get">
+				<input type="text" name="fio" id="fio">
+				<input type="text" name="email" id="email">
+				<input type="text" name="phone" id="phone">
+				<input type="submit" name="submit" value="Отправить">
+			</form>
+		</div> -->
+
+		<script type="text/javascript">
+
+let cards = document.getElementsByClassName("card");
+	for (item of cards){
+		item.style.border ="2px solid darkgreen";
+	}
+
+buttons = document.querySelectorAll(".item");
+let cnt = 0;
+
+buttons.forEach(function(elem){elem.addEventListener("click", addToBasket)});
+
+
+function addToBasket(){
+	this.parentNode.style = "background: #f4f4f4;"
+	let divBasket = document.querySelector("#div-basket");
+
+	let a = divBasket.innerHTML;
+
+	// divBasket.innerHTML = a + " " + this.parentNode.childNodes[1].innerHTML;
+}
+
+function scrollHandler(){
+	let cards = document.querySelectorAll('.card1');
+	let a = window.scrollY+400;
+
+
+
+	for (card of cards) {
+		if(a>card.offsetTop){
+			console.log(a)
+			// console.log(card.offsetTop)
+			card.classList.remove("card-left");
+			card.classList.add("card-left-new");
+			card.nextSibling.nextSibling.nextSibling.nextSibling.classList.remove("card-right");
+			card.nextSibling.nextSibling.nextSibling.nextSibling.classList.add("card-right-new");
+		}
+	}
+}
+
+window.addEventListener("scroll", scrollHandler)
+
+function getFromCart(){
+	return JSON.parse(localStorage.getItem('basket'))
+}
+
+let items = document.querySelectorAll('.items')
+
+for (let item of items){
+	item.addEventListener('click', addToCart)
+}
+
+function updateTotalSum(basket){
+	let totalSum = 0
+	for(let item in basket){
+		totalSum += basket[item]["price"]*basket[item]["cnt"]
+	}
+	return totalSum
+}
+
+document.querySelector('#basket').addEventListener('click', function(){
+
+	let basket = JSON.parse(localStorage.getItem("basket"))
+	let cartTable = document.querySelector("#cart-table")
+
+	let tableInner = "<tr><td>Наименование товара</td><td>Цена</td><td>Количество</td></tr>"
+	for(let item in basket){
+
+		tableInner += `<tr data-id="${item}">
+						<td>${basket[item]["name"]}</td>
+						<td>${basket[item]["price"]}</td>
+						<td>${basket[item]["cnt"]}</td>
+						<td>
+						<span class="close-icon">\u2716</span>
+						<span class="add-icon">+</span>
+						</td>
+						</tr>`
+	
+	}
+
+
+	cartTable.innerHTML = tableInner
+	document.querySelector("#totalSum").innerHTML = `Итог: ${updateTotalSum(basket)} p.`
+	document.querySelector('#div-basket').style = 'display: block';
+
+	let closeIcons = document.querySelectorAll('.close-icon')
+	let addIcons = document.querySelectorAll(".add-icon")
+
+	for(let icon of closeIcons){
+		icon.addEventListener('click', function(){
+			let item = this.parentNode.parentNode.dataset.id
+
+			//alert(this.parentNode.parentNode.dataset.id)
+
+			if (basket[item]["cnt"] > 1){
+				basket[item]["cnt"]--
+				// alert(basket[item]["cnt"])
+				localStorage.setItem('basket', JSON.stringify(basket))
+				this.parentNode.parentNode.querySelector('td:nth-child(3)').innerHTML = basket[item]     ["cnt"]
+			}
+			else{
+				delete basket[item]
+				this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode)
+				localStorage.setItem('basket', JSON.stringify(basket))							
+			}
+
+			document.querySelector("#totalSum").innerHTML = `Итог: ${updateTotalSum(basket)} p.`
+		})
+	}	
+
+	for(let icon of addIcons){
+		icon.addEventListener('click', function(){
+			let item = this.parentNode.parentNode.dataset.id
+
+			//alert(this.parentNode.parentNode.dataset.id)
+
+			if (basket[item]["cnt"] < 10){
+				basket[item]["cnt"]++
+				// alert(basket[item]["cnt"])
+				localStorage.setItem('basket', JSON.stringify(basket))
+				this.parentNode.parentNode.querySelector('td:nth-child(3)').innerHTML = basket[item]["cnt"]
+			}
+			document.querySelector("#totalSum").innerHTML = `Итог: ${updateTotalSum(basket)} p.`
+		})
+	}	
+})
+
+let closeButtons = document.querySelectorAll('.cart-button-close')
+for (let button of closeButtons){
+	button.addEventListener('click',function(){
+		document.querySelector('#div-basket').style = 'display: none';
+	})
+}
+
+items = document.querySelectorAll(".item")
+for(let item of items){
+	item.addEventListener('click', function(){
+		let itemID = +this.parentNode.dataset.id
+		let itemName = this.parentNode.querySelector('h3').innerHTML
+		let itemPrice = this.parentNode.querySelector('.price').innerHTML
+
+
+		let basket = JSON.parse(localStorage.getItem("basket")) || {}
+		if (basket[itemID]){
+			basket[itemID]["cnt"]++
+		}
+		else{
+			basket[itemID] = {"name": itemName, "price": itemPrice, "cnt": 1}
+		}	
+		localStorage.setItem("basket",JSON.stringify(basket))
+	})
+}
+
+// document.addEventListener('DOMContentLoaded', function(){
+// 	localStorage.clear()
+// })
+
+document.querySelector("#clear-cart").addEventListener("click", function(){
+	localStorage.clear()
+	document.querySelector('#cart-table').innerHTML = document.querySelector("#cart-table tr:first-child").outerHTML
+	document.querySelector('#totalSum').innerHTML = "Итог: 0р."
+})
+
+document.querySelector('#order-button').addEventListener('click',function(){
+	let basket = localStorage.getItem("basket")
+	order.user_cart.value = basket
+	order.submit()
+})
+
+		</script>
+	</body>
+</html>
